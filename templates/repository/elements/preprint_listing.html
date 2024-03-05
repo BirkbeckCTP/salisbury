@@ -1,0 +1,28 @@
+{% load truncate %}
+
+{% for preprint in preprints %}
+    <div class="card">
+        <div class="card-content">
+            <div class="row">
+                <div class="col m3">
+                    <img class="responsive-img" src="/media/press/{{ preprint.pk }}.jpg" alt="Thumbnail representing {{ preprint.title }}">
+                </div>
+                <div class="col m9">
+                    <h2 class="listing-title no-padding-top">
+                <a href="{% url 'repository_preprint' preprint.pk %}">
+                    {{ preprint.title|safe }}
+                </a>
+            </h2>
+            <p class="authors card-text">{{ preprint.display_authors_compact }}</p>
+            <p class="info">
+                <strong>Published</strong>: {{ preprint.date_published|date:"Y-m-d" }}
+                <br />
+                {% if preprint.subject.exists %}<strong>Subjects</strong>: {% include "common/repository/subject_display.html" %}{% endif %}
+            </p>
+            <p>{{ preprint.abstract|striptags|truncatesmart:400 }}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endfor %}
