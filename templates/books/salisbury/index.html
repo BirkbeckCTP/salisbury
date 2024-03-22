@@ -27,15 +27,36 @@
                 {% endfor %}
             </div>
             <div class="col m3">
-                <div class="form-group">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="input-group">
+                            <form class="form-horizontal" method="GET">
+                                {% csrf_token %}
+                                <div class="form-group">
 
-                    <div class="input-field">
-                        <form method="GET">
-                            <input type="text" class="validate" id="search" name="search"{% if request.GET.search %}value="{{ request.GET.search }}"{% endif %}>
-                            <label for="search"
-                               class="">{% trans "Search Books" %}</label>
-                            <input type="submit" style="visibility: hidden;"/>
-                        </form>
+                                    <div class="input-field">
+                                        <i class="material-icons prefix">search</i>
+                                        <input id="icon_prefix" type="text"
+                                               class="validate"
+                                               {% if request.GET.search %}value="{{ request.GET.search }}"{% endif %}
+                                               name="search">
+                                        <label for="icon_prefix"
+                                               class="">{% trans "Search Books" %}</label>
+                                    </div>
+                                    <p>
+                                        <small>{% trans "You can search by:" %}</small>
+                                    </p>
+                                    <small>
+                                        <ul>
+                                            <li>{% trans "Title" %}</li>
+                                            <li>{% trans "Description" %}</li>
+                                        </ul>
+                                    </small>
+                                </div>
+                                <input type="submit"
+                                       style="visibility: hidden;"/>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
