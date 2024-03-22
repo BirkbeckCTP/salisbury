@@ -35,7 +35,7 @@
                 <li><a href="{% url 'press_journals' %}" class="nav-link">Journals</a></li>
             {% endif %}
 
-            <li><a href="/reports/repository/list/" class="nav-link">Reports</a></li>
+            <li><a href="/library/repository/list/" class="nav-link">Reports</a></li>
 
             {% hook 'nav_block' %}
             {% if request.user.is_authenticated %}
