@@ -4,22 +4,38 @@
 {% load i18n %}
 {% load hooks %}
 
-
 <nav class="header-overrides" role="navigation">
-    <div class="nav-wrapper{% if not request.journal.full_width_navbar %} container{% endif %}">
-        <a id="logo-container" href="{% url 'website_index' %}" class="brand-logo">
-            {% if request.repository.logo %}
-            <img src="{{ request.repository.logo.url }}" class="responsive-img" />
+    <div class="nav-wrapper container">
+        <a id="logo-container" href="{% if request.journal %}{{ request.journal.site_url }}{% else %}{{ request.press_base_url }}{% endif %}" class="brand-logo">
+            {% if 'svg' in request.press_cover %}
+                {% svg request.press_cover %}
             {% else %}
-            {{ request.repository.name }}
+                <img class="top-bar-image" src="{% url 'press_cover_download' %}" alt="{{ request.press.name }}"/>
             {% endif %}
         </a>
         <ul class="right hide-on-med-and-down">
-            <li><a href="/">Wessex Archaeology Online Press</a></li>
-            <li><a href="{% url 'repository_about' %}">{% trans "About" %}</a>
-            <li><a href="{% url 'repository_list' %}">{{ request.repository.object_name_plural | capfirst }}</a></li>
-            <li><a href="{% url 'repository_subject_list' %}">{% trans "Subjects" %}</a></li>
-            <li><a href="{% url 'repository_submit' %}">{% trans "Submit" %}</a></li>
+            <li><a href="/">{% trans "Home" %}</a></li>
+            {% for item in navigation_items %}
+                {% if item.has_sub_nav %}
+                    <li>
+                        <a
+                            class="dropdown-trigger"
+                            href="#!"
+                            data-target="{{ item.link_name|slugify }}">
+                            {{ item.link_name }}
+                            <i class="material-icons right">arrow_drop_down</i>
+                        </a>
+                    </li>
+                {% elif not item.for_footer %}
+                    <li><a href="/{{ item.link }}" class="nav-link">{{ item.link_name }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if request.press.publishes_journals and not request.press.disable_journals %}
+                <li><a href="{% url 'press_journals' %}" class="nav-link">Journals</a></li>
+            {% endif %}
+
+            <li><a href="/reports/repository/list/" class="nav-link">Reports</a></li>
 
             {% hook 'nav_block' %}
             {% if request.user.is_authenticated %}
@@ -28,23 +44,45 @@
                         class="dropdown-trigger"
                         href="#!"
                         data-target="account">
-                        Account
+                        {% trans "Account" %}
                         <i class="material-icons right">arrow_drop_down</i>
                     </a>
                 </li>
-            {% else %}
-                <li><a href="{% url 'core_login' %}" class="nav-link">Login</a></li>
-                <li><a href="{% url 'core_register' %}">Register</a></li>
             {% endif %}
         </ul>
 
         <ul class="sidenav" id="nav-mobile">
-            <li><a href="{% url 'website_index' %}">{% trans "Home" %}</a></li>
-            <li><a href="{% url 'repository_about' %}">{% trans "About" %}</a></li>
-            <li><a href="{% url 'repository_list' %}">{{ request.repository.object_name_plural }}</a></li>
-            <li><a href="{% url 'repository_subject_list' %}">{% trans "Subjects" %}</a></li>
-            <li><a href="{% url 'repository_submit' %}">{% trans "Submit" %}</a></li>
-
+            <li><a href="/">{% trans "Home" %}</a></li>
+            {% for item in navigation_items %}
+                {% if item.has_sub_nav %}
+                    <li>
+                        <a
+                            class="dropdown-trigger"
+                            href="#!"
+                            data-target="{{ item.link_name|slugify }}-mobile">
+                            {{ item.link_name }}
+                            <i class="material-icons right">arrow_drop_down</i>
+                        </a>
+                    </li>
+                {% elif not item.for_footer %}
+                    <li><a href="/{{ item.link }}" class="nav-link">{{ item.link_name }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if request.press.publishes_journals and not request.press.disable_journals %}
+                <li><a href="{% url 'press_journals' %}" class="nav-link">Journals</a></li>
+            {% endif %}
+            {% if request.press.enable_preprints %}
+                <li>
+                    <a
+                        class="dropdown-trigger"
+                        href="#!"
+                        data-target="preprints-mobile">
+                        {% trans "Repositories" %}
+                        <i class="material-icons right">arrow_drop_down</i>
+                    </a>
+                </li>
+            {% endif %}
+            <li><a href="{% url 'contact' %}" class="nav-link">{% trans 'Contact' %}</a></li>
             {% if request.user.is_authenticated %}
                 <li>
                     <a
@@ -55,9 +93,6 @@
                         <i class="material-icons right">arrow_drop_down</i>
                     </a>
                 </li>
-            {% else %}
-                <li><a href="{% url 'core_login' %}" class="nav-link">{% trans "Login" %}</a></li>
-                <li><a href="{% url 'core_register' %}">{% trans "Register" %}</a></li>
             {% endif %}
         </ul>
         <a
@@ -71,28 +106,60 @@
 
 {% if request.user.is_authenticated %}
     <ul id="dropdown1" class="dropdown-content">
-         <li><a href="{% url 'repository_dashboard' %}">{% trans "Dashboard" %}</a></li>
-        {% if request.user in request.repository.managers.all %}
-            <li>
-                <a href="{% url 'preprints_manager' %}">Manager</a>
-            </li>
+        {% if request.user.is_staff %}
+            <li><a class="dropdown-item" href="{% url 'core_manager_index' %}">{% trans "Manager" %}</a></li>
         {% endif %}
         {% if request.user.is_staff %}
-            <li><a class="dropdown-item" href="/admin/repository/">{% trans "Admin" %}</a></li>
+            <li><a class="dropdown-item" href="/admin/">{% trans "Admin" %}</a></li>
         {% endif %}
-       <li><a class="dropdown-item" href="{% url 'core_logout' %}">{% trans "Logout" %}</a></li>
+        <li><a class="dropdown-item" href="{% url 'core_edit_profile' %}">{% trans "Profile" %}</a></li>
+        <li><a class="dropdown-item" href="{% url 'core_logout' %}">{% trans "Logout" %}</a></li>
     </ul>
 
     <ul id="account" class="dropdown-content">
-        <li><a href="{% url 'repository_dashboard' %}">{% trans "Dashboard" %}</a></li>
-        {% if request.user in request.repository.managers.all %}
-            <li>
-                <a href="{% url 'preprints_manager' %}">Manager</a>
-            </li>
+        {% if request.user.is_staff %}
+            <li><a class="dropdown-item" href="{% url 'core_manager_index' %}">{% trans "Manager" %}</a></li>
         {% endif %}
         {% if request.user.is_staff %}
-            <li><a class="dropdown-item" href="/admin/repository/">{% trans "Admin" %}</a></li>
+            <li><a class="dropdown-item" href="/admin/">{% trans "Admin" %}</a></li>
         {% endif %}
+        <li><a class="dropdown-item" href="{% url 'core_edit_profile' %}">{% trans "Profile" %}</a></li>
         <li><a class="dropdown-item" href="{% url 'core_logout' %}">{% trans "Logout" %}</a></li>
     </ul>
 {% endif %}
+
+{% if request.press.enable_preprints %}
+    <ul id="preprints" class="dropdown-content">
+        {% for repo in request.press.live_repositories %}
+            <li><a class="dropdown-item" href="{{ repo.site_url }}">{{ repo.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <ul id="preprints-mobile" class="dropdown-content">
+        {% for repo in request.press.live_repositories %}
+            <li><a class="dropdown-item" href="{{ repo.site_url }}">{{ repo.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% for item in navigation_items %}
+    {% if item.has_sub_nav %}
+        <ul id="{{ item.link_name|slugify }}" class="dropdown-content">
+            {% if item.link %}<li><a href="{{ item.url }}" class="dropdown-item">{{ item.link_name }}</a></li>{% endif %}
+            {% for subnav in item.sub_nav_items %}
+                <li><a href="/{{ subnav.link }}" class="dropdown-item">{{ subnav.link_name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endfor %}
+
+{% for item in navigation_items %}
+    {% if item.has_sub_nav %}
+        <ul id="{{ item.link_name|slugify }}-mobile" class="dropdown-content">
+            {% if item.link %}<li><a href="{{ item.url }}" class="dropdown-item">{{ item.link_name }}</a></li>{% endif %}
+            {% for subnav in item.sub_nav_items %}
+                <li><a href="/{{ subnav.link }}" class="dropdown-item">{{ subnav.link_name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endfor %}

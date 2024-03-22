@@ -1,0 +1,47 @@
+{% extends "core/base.html" %}
+
+{% block title %}{% if not category %}Published Books{% else %}
+    {{ category.name }}{% endif %}{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="row">
+            <div class="col m9">
+                {% if not category %}
+                    <h4>{{ book_settings.book_page_title }}</h4>
+                {% else %}
+                    {% if category.display_title %}
+                        <h4>Category: {{ category.name }}</h4>
+                    {% endif %}
+                    {{ category.description|safe }}
+                    <a href="{% url 'books_index' %}" class="button">< Back to
+                        All</a>
+                {% endif %}
+
+                {% for book in books %}
+                    <div class="box journal">
+                        {% include "books/salisbury/book_detail.html" with book=book truncate=True %}
+                    </div>
+                    <hr/>
+                    {% empty %}
+                    <p>There are no published books to display.</p>
+                {% endfor %}
+            </div>
+            <div class="col m3">
+                <div class="form-group">
+
+                    <div class="input-field">
+                        <form method="GET">
+                            <input type="text" class="validate" id="search" name="search"{% if request.GET.search %}value="{{ request.GET.search }}"{% endif %}>
+                            <label for="search"
+                               class="">{% trans "Search Books" %}</label>
+                            <input type="submit" style="visibility: hidden;"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+{% endblock body %}

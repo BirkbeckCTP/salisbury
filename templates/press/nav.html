@@ -35,9 +35,7 @@
                 <li><a href="{% url 'press_journals' %}" class="nav-link">Journals</a></li>
             {% endif %}
 
-            <li><a href="/library/" class="nav-link">Reports</a></li>
-
-            <li><a href="{% url 'contact' %}" class="nav-link">{% trans 'Contact' %}</a></li>
+            <li><a href="/reports/repository/list/" class="nav-link">Reports</a></li>
 
             {% hook 'nav_block' %}
             {% if request.user.is_authenticated %}
@@ -50,9 +48,6 @@
                         <i class="material-icons right">arrow_drop_down</i>
                     </a>
                 </li>
-            {% else %}
-                <li><a href="{% url 'core_login' %}" class="nav-link">{% trans "Login" %}</a></li>
-                <li><a href="{% url 'core_register' %}">{% trans "Register" %}</a></li>
             {% endif %}
         </ul>
 
@@ -98,9 +93,6 @@
                         <i class="material-icons right">arrow_drop_down</i>
                     </a>
                 </li>
-            {% else %}
-                <li><a href="{% url 'core_login' %}" class="nav-link">{% trans "Login" %}</a></li>
-                <li><a href="{% url 'core_register' %}">{% trans "Register" %}</a></li>
             {% endif %}
         </ul>
         <a
