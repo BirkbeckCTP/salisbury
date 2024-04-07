@@ -61,17 +61,6 @@
             </span>
         </div>
 
-        {% if not books and book.format_set.exists %}
-            <div class="large-2 columns">
-                <h3>Book Metrics</h3>
-                <h4>{{ book.metrics.downloads }}</h4>
-                <p>Downloads</p>
-                {% if book.metrics.views %}
-                <h4>{{ book.metrics.views }}</h4>
-                <p>EPUB Views</p>
-                {% endif %}
-            </div>
-        {% endif %}
     </div>
 </div>
 
