@@ -5,6 +5,10 @@
 {% block title %}{{ press.name }}{% endblock title %}
 {% block navbarbrand %}{{ press.name }}{% endblock navbarbrand %}
 
+{% block meta %}
+    <meta name="description" content="Access archaeological reports and research books from Wessex Archaeology for free via our digital library" />
+{% endblock %}
+
 {% block body %}
 
     <h1 class="text-center">Welcome to Wessex Archaeology's Online Library</h1>
@@ -25,7 +29,7 @@
     </p>
 
     <div class="row">
-        <div class="m3 col offset-m3">
+        <div class="m4 col offset-m2">
             <div class="card">
                 <div class="card-image">
                     <img src="https://wessexarchaeologylibrary.org/media/press/reports.png">
@@ -44,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div class="m3 col end">
+        <div class="m4 col end">
             <div class="card">
                 <div class="card-image">
                     <img src="https://wessexarchaeologylibrary.org/media/press/books.png">
@@ -65,7 +69,7 @@
         </div>
     </div>
 
-    <h2 class="text-center">Latest Books and Reports</h2>
+    <h2 class="text-center">Featured books and reports</h2>
     <div class="row eq-height-row">
         <div class="col m6 eq-height-col">
             <div class="card">
@@ -87,6 +91,7 @@
                             </h2>
                             <p class="authors card-text">A. P. Fitzpatrick</p>
                             <p>[Book]</p>
+                            <p><a href="https://wessexarchaeologylibrary.org/plugins/books/5/" class="waves-effect waves-light btn"> View</a></p>
                         </div>
                     </div>
                 </div>
@@ -114,11 +119,66 @@
                                 Marshall, Alistair J. Barclay & Nick
                                 Stoodley</p>
                             <p>[Book]</p>
+                            <p><a href="https://wessexarchaeologylibrary.org/plugins/books/4/" class="waves-effect waves-light btn"> View</a></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+    </div>
+    <div class="row eq-height-row">
+
+        <div class="col m6 eq-height-col">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col m3">
+                            <img class="responsive-img"
+                                 src="https://wessexarchaeologylibrary.org/media/cover_images/ea01f0e4-2a57-4a3d-9600-e4e59dd16e95.jpg">
+                        </div>
+                        <div class="col m9">
+                            <h2 class="listing-title no-padding-top">
+                                <a href="https://wessexarchaeologylibrary.org/plugins/books/68/">
+                                    The Archaeology of the Hornsea Project One
+                                    Offshore Windfarm Cable Route: Agriculture,
+                                    Settlement, Moats and Saltworking in the
+                                    Lincolnshire Marshes
+                                </a>
+                            </h2>
+                            <p class="authors card-text">Ashley Tuck</p>
+                            <p>[Book]</p>
+                            <p><a href="https://wessexarchaeologylibrary.org/plugins/books/68/" class="waves-effect waves-light btn"> View</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col m6 eq-height-col">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col m3">
+                            <img class="responsive-img"
+                                 src="https://wessexarchaeologylibrary.org/media/cover_images/ea01f0e4-2a57-4a3d-9600-e4e59dd16e95.jpg">
+                        </div>
+                        <div class="col m9">
+                            <h2 class="listing-title no-padding-top">
+                                <a href="https://wessexarchaeologylibrary.org/library/repository/view/117/">
+                                    Harnham Bunker, Old Blandford Road,
+                                    Salisbury. Historic Building Record.
+                                </a>
+                            </h2>
+                            <p class="authors card-text">Wessex Archaeology</p>
+                            <p>[Report]</p>
+                            <p><a href="https://wessexarchaeologylibrary.org/library/repository/view/117/" class="waves-effect waves-light btn"> View</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 {% endblock body %}

@@ -3,6 +3,8 @@
 {% block title %}{% if not category %}Published Books{% else %}
     {{ category.name }}{% endif %}{% endblock %}
 
+{% block meta %}<meta name="description" content="Books library from Wessex Archaeology, sharing interpretation and analysis of significant archaeological projects and research." />{% endblock %}
+
 {% block body %}
     <section class="content">
         <div class="row">
