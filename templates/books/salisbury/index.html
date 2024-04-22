@@ -3,12 +3,15 @@
 {% block title %}{% if not category %}Published Books{% else %}
     {{ category.name }}{% endif %}{% endblock %}
 
-{% block meta %}<meta name="description" content="Books library from Wessex Archaeology, sharing interpretation and analysis of significant archaeological projects and research." />{% endblock %}
+{% block meta %}<meta name="description" content="Read our publications, with interpretation and analysis of our most significant archaeological projects." />{% endblock %}
 
 {% block body %}
     <section class="content">
         <div class="row">
             <div class="col m9">
+                <div class="l12 col">
+                    <p class="text-center">Our books share interpretation and analysis of some of our most significant archaeological projects, spanning more than 40 years of archaeological research. The books, freely available to download, include a number of out-of-print titles.</p>
+                </div>
                 {% if not category %}
                     <h4>{{ book_settings.book_page_title }}</h4>
                 {% else %}

@@ -5,7 +5,7 @@
 {% block title %}{{ request.repository.name }} {{ request.repository.object_name_plural }}{% endblock %}
 
 {% block meta %}
-    <meta name="description" content="Library of Wessex Archaeology’s fieldwork, geophysical, coastal and marine, geoarchaeological and post-excavation reports from archaeological projects across the UK."/>
+    <meta name="description" content="Library of Wessex Archaeology’s fieldwork, geophysical, geoarchaeological and post-excavation reports from archaeological projects across the UK. "/>
 {% endblock %}
 
 {% block body %}
@@ -13,6 +13,7 @@
 
         <div class="col m8 spacer">
             <h1>{{ request.repository.object_name_plural }}</h1>
+            <p>Our reports library includes fieldwork,  geophysical, geoarchaeological, marine and post-excavation reports from our archaeological and heritage projects across the UK. </p>
             <p>
                 {% if search_term %}
                     Search for <em>{{ search_term }}</em> ({{ preprints.paginator.count }} results)
